@@ -4,8 +4,8 @@
  * Creation Date: Jun 4, 2016 at 10:41:52 PM
  *********************************************/
 
- int ndigits = 64;
- int sqrt_ndigits = 8;
+ int ndigits = 9; // update the box dimension 
+ int sqrt_ndigits = 3; // this number should be the square root of the above number 
  
  range N = 1..ndigits;
  range Ns = 1..sqrt_ndigits; 
@@ -18,14 +18,17 @@
  subject to{
  
  	forall(val in N){
+ 		// each row should have 1..N
 		forall(row in N){
 			sum(i in N)(x[val][row][i]) == 1;
 		 }
-		 
+		
+		// each column should have 1..N 
 		forall(col in N){
 			sum(i in N)(x[val][i][col]) == 1 ; 
 		}
 		
+		// each box should have 1..N
 		forall(b1 in Ns){ // eg 1..2
 			forall(b2 in Ns){
 				sum(i in Ns)(sum(j in Ns)(x[val][i + (b1-1)*sqrt_ndigits ][j+ (b2-1)*sqrt_ndigits ])) ==1 ;
@@ -40,15 +43,13 @@
  		}
  		   	
  	}
-// values that were initially specified 
-//x[1][2][3]==1; // eg row 2, column 3 is a 1 
+// here add the values that were initially specified
+// eventually will add a script to read these from file 
+//x[1][2][3]==1; // means row 2, column 3 is a 1 
 
  }
  
-
- 
-
- execute show_solution{
+ execute show_solution{ // print the solution to the scripting log window 
   
 	var row = 1;
 	var col, val, row_str, z; 
